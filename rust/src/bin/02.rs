@@ -19,22 +19,18 @@ fn main() {
     limits.insert("blue", 14);
     let limits = limits;
 
-    let line_regex = Regex::new(r"Game (\d+): (.*)").unwrap();
+    let line_regex = Regex::new(r"Game (\d+)").unwrap();
     let item_regex = Regex::new(r"(\d+) (\w+)").unwrap();
 
     for line in input.lines() {
         let captures = line_regex.captures(line).unwrap();
         let num = captures.get(1).unwrap().as_str().parse::<i32>().unwrap();
-        let batches = captures.get(2).unwrap().as_str();
         let mut possible = true;
-        for batch in batches.split("; ") {
-            for item in batch.split(", ") {
-                let captures = item_regex.captures(item).unwrap();
-                let count = captures.get(1).unwrap().as_str().parse::<i32>().unwrap();
-                let color = captures.get(2).unwrap().as_str();
-                if count > limits[color] {
-                    possible = false;
-                }
+        for captures in item_regex.captures_iter(line){
+            let count = captures.get(1).unwrap().as_str().parse::<i32>().unwrap();
+            let color = captures.get(2).unwrap().as_str();
+            if count > limits[color] {
+                possible = false;
             }
         }
         if possible {
