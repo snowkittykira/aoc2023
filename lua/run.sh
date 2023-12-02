@@ -1,1 +1,1 @@
-lua 01-2.lua
+lua src/01-2.lua
