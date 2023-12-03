@@ -14,7 +14,7 @@ local function index_to_coords (index)
   }
 end
 
-local function find_all_with_location (pat)
+local function find_all_with_locations (pat)
   pat = '()(' .. pat .. ')()'
   local results = {}
   for from, body, to in input:gmatch(pat) do
@@ -33,9 +33,9 @@ local function are_adjacent (a, b)
          a.from.y <= b.to.y and b.from.y <= a.to.y
 end
 
-local numbers = find_all_with_location "%d+"
+local numbers = find_all_with_locations "%d+"
 --pprint (numbers)
-local symbols = find_all_with_location "[^%.%d%s]"
+local symbols = find_all_with_locations "[^%.%d%s]"
 --pprint (symbols)
 
 ---- part 1 --------------------------------------

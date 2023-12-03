@@ -1,1 +1,1 @@
-cargo run --release --bin 02-2
+cargo run --release --bin 03
