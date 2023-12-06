@@ -1,1 +1,1 @@
-lua src/04.lua
+cd src && lua 06.lua

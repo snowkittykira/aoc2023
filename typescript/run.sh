@@ -1,2 +1,2 @@
 npx tsc
-node build/02-2.js
+node build/04.js
