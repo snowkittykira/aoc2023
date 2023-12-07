@@ -1,4 +1,4 @@
-local input = io.open('../../data/05-example.txt'):read('*a')
+local input = io.open('../../data/05.txt'):read('*a')
 local lume = require 'lume'
 local pprint = require 'pprint'
 
@@ -55,12 +55,13 @@ local function map_range (range, mapping)
     ending = math.min (range.first + range.length, mapping.src + mapping.length)
   }
   overlap.length = overlap.ending - overlap.first
-  pprint (range, mapping, overlap)
+  --pprint (range, mapping, overlap)
   assert (overlap.length > 0)
 
   -- map overlap
   local dst_range = {first = overlap.first + mapping.dst - mapping.src, length = overlap.length}
   local src_remainders = {}
+
   if overlap.first > range.first then
     local r = {
       first = range.first,
@@ -69,7 +70,8 @@ local function map_range (range, mapping)
     assert (r.length > 0)
     table.insert (src_remainders, r)
   end
-  if overlap.ending > mapping.src + mapping.length then
+
+  if range.first + range.length > mapping.src + mapping.length then
     local r = {
       first = overlap.ending,
       length = range.first + range.length - overlap.ending
@@ -90,7 +92,7 @@ local function part_2 ()
   for i = 1, #range_input, 2 do
     table.insert (seed_ranges, {first = range_input[i], length = range_input[i+1]})
   end
-  print (#seed_ranges)
+  --print (#seed_ranges)
   local maps = map ({table.unpack (sections, 2)}, function (s)
     local ranges = map (array (s:gmatch ('[^\n]+')), function (line)
       local nums = map (array (line:gmatch ('%d+')), tonumber)
@@ -143,7 +145,7 @@ local function part_2 ()
   end
   --pprint(seed_ranges)
   --pprint(maps)
-  pprint(from)
+  --pprint(from)
 
   return math.min (table.unpack (map (from, function (r) return r.first end)))
 end
