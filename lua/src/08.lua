@@ -39,25 +39,37 @@ do -- part 1
 end
 
 do -- part 2
-  local reached = {}
-  local done = false
-  local cur = nodes:filter (function (n) return n.name:endswith'A' end)
-  local count = 0
-  while not done do
-    for _, dir in ipairs (directions) do
-      cur = cur:map (function (c) return node_map [c[dir]] end)
-      count = count + 1
-      local cur_ends = cur:filter (function (c) return c.name:endswith'Z' end)
-      local stamp = cur:map (function (c) return c.name end):join()
-      --print (stamp)
-      assert (not reached[stamp], 'loop detected')
-      reached[stamp] = true
-      if #cur_ends == #cur then
-        done = true
+  local function run_until_end (cur)
+    local count = 0
+    while true do
+      for _, dir in ipairs (directions) do
+        --pretty (cur, dir, cur [dir])
+        cur = node_map [cur[dir]]
+        count = count + 1
+        if cur.name:endswith'Z' then
+          break
+        end
+      end
+      if cur.name:endswith'Z' then
         break
       end
     end
-    --print (count)
+    return count
   end
-  print ('part 2: ' .. count)
+  local starts = nodes:filter (function (n) return n.name:endswith'A' end)
+  local lengths = starts:map (run_until_end)
+  --print (lengths)
+
+  local function gcd (a, b)
+    for i = math.min (a, b) - 1, 1, -1 do
+      if a%i == 0 and b%i == 0 then
+        return i
+      end
+    end
+  end
+  local function lcm (a, b)
+    return a * b / gcd (a, b)
+  end
+  -- dunno why but i need the floor to take off the .0 at the end
+  print ('part 2: ' .. math.floor(lengths:reduce(lcm)))
 end
