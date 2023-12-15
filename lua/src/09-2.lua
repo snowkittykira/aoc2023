@@ -2,7 +2,6 @@ local List = require 'pl.List'
 local pretty = require 'pl.pretty'
 require 'pl.stringx'.import()
 
-
 local function all_zero(list)
   for i = 1, #list do
     if list[i] ~= 0 then

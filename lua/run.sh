@@ -1,1 +1,1 @@
-cd src && lua 10.lua
+cd src && lua 15.lua
